@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gogo/protobuf/proto"
-	pb "github.com/ihcsim/routeguide/proto"
+	pb "github.com/zerospiel/routeguide/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )

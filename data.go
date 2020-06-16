@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"sync"
 
-	pb "github.com/ihcsim/routeguide/proto"
+	pb "github.com/zerospiel/routeguide/proto"
 )
 
 var (

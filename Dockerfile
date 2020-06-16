@@ -1,5 +1,5 @@
 FROM golang:1.12.6-alpine3.10 as builder
-ARG PROJECT_PATH=/go/src/github.com/ihcsim/routeguide
+ARG PROJECT_PATH=/go/src/github.com/zerospiel/routeguide
 ARG GRPC_HEALTH_PROBE_VERSION=v0.2.0
 WORKDIR ${PROJECT_PATH}
 COPY . .

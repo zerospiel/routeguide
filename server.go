@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	pb "github.com/ihcsim/routeguide/proto"
+	pb "github.com/zerospiel/routeguide/proto"
 )
 
 const metadataServerKey = "server"

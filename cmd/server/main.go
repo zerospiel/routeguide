@@ -10,8 +10,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/ihcsim/routeguide"
-	pb "github.com/ihcsim/routeguide/proto"
+	"github.com/zerospiel/routeguide"
+	pb "github.com/zerospiel/routeguide/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
