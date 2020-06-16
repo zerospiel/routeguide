@@ -48,10 +48,10 @@ func (r *routeGuideServer) GetFeature(ctx context.Context, point *pb.Point) (*pb
 	md := metadata.Pairs(metadataServerKey, r.hostname)
 	grpc.SetHeader(ctx, md)
 
-	log.Printf("[GetFeature] (req) %+v\n", point)
+	// log.Printf("[GetFeature] (req) %+v\n", point)
 	for _, feature := range r.savedFeatures {
 		if proto.Equal(feature.Location, point) {
-			log.Printf("[GetFeature] (resp) %+v\n", feature)
+			// log.Printf("[GetFeature] (resp) %+v\n", feature)
 			return feature, nil
 		}
 	}

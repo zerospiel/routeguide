@@ -34,7 +34,7 @@ func (c *Client) GetFeature(ctx context.Context) error {
 		header metadata.MD
 		point  = randPoint()
 	)
-	log.Printf("[GetFeature] (req) %+v\n", point)
+	// log.Printf("[GetFeature] (req) %+v\n", point)
 
 	feature, err := c.GRPC.GetFeature(ctx, point, grpc.Header(&header))
 	if err != nil {
@@ -152,5 +152,5 @@ func output(api string, metadata metadata.MD, content proto.Message) {
 	if serverName, ok := metadata["server"]; ok && len(serverName) > 0 {
 		server = serverName[0]
 	}
-	log.Printf("[%s] {resp) (server=%s) %+v\n", strings.Title(api), server, content)
+	log.Printf("[%s] (resp) (server=%s) %+v\n", strings.Title(api), server, content)
 }

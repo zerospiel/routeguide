@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc/resolver/manual"
 )
 
+//go:generate stringer -type=resolverType
 type resolverType int
 
 const (
@@ -31,39 +32,28 @@ func ParseResolverType(rt string) (resolverType, error) {
 	return -1, fmt.Errorf("Unsupported resolver type: %s", rt)
 }
 
-func (r resolverType) String() string {
-	switch r {
-	case resolverDNS:
-		return resolverDNSStr
-	case resolverManual:
-		return resolverManualStr
-	default:
-		return resolverUnknownStr
-	}
-}
-
 func registerResolver(rt resolverType, serverIPs string) error {
 	var builder resolver.Builder
-
 	switch rt {
 	case resolverDNS:
 		builder = dns.NewBuilder()
 	case resolverManual:
 		b, _ := manual.GenerateAndRegisterManualResolver()
 		addresses := []resolver.Address{}
-		for _, addr := range strings.Split(serverIPs, ",") {
-			addresses = append(addresses, resolver.Address{Addr: addr, Type: resolver.Backend})
+		for _, a := range strings.Split(serverIPs, ",") {
+			// WARN: deprecated usage but only for fast build purposes
+			addresses = append(addresses, resolver.Address{Addr: a, Type: resolver.Backend})
 		}
-		b.InitialAddrs(addresses)
+		b.InitialState(resolver.State{
+			Addresses: addresses,
+		})
 		builder = b
 	default:
 		return fmt.Errorf("Unsupported resolver type: %s", rt)
 	}
 
-	// Each resolver scheme package calls init() to register
-	// itself. So we need to call Register() again here to
-	// register the selected builder.
 	resolver.Register(builder)
 	resolver.SetDefaultScheme(builder.Scheme())
+
 	return nil
 }

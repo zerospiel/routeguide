@@ -15,7 +15,6 @@ import (
 	pb "github.com/zerospiel/routeguide/proto"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/balancer/roundrobin"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -61,8 +60,8 @@ func main() {
 	}()
 
 	if *enableLB {
-		log.Printf("[main] load balancing scheme: %s", roundrobin.Name)
-		opts = append(opts, grpc.WithBalancerName(roundrobin.Name))
+		log.Printf("[main] load balancing scheme: %s", BalancerName)
+		opts = append(opts, grpc.WithBalancerName(BalancerName))
 
 		rt, err := ParseResolverType(*resolver)
 		if err != nil {
