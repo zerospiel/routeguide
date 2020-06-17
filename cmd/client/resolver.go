@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/resolver"
 	"google.golang.org/grpc/resolver/dns"
 	"google.golang.org/grpc/resolver/manual"
@@ -40,9 +41,17 @@ func registerResolver(rt resolverType, serverIPs string) error {
 	case resolverManual:
 		b, _ := manual.GenerateAndRegisterManualResolver()
 		addresses := []resolver.Address{}
-		for _, a := range strings.Split(serverIPs, ",") {
-			// WARN: deprecated usage but only for fast build purposes
-			addresses = append(addresses, resolver.Address{Addr: a, Type: resolver.Backend})
+		for i, a := range strings.Split(serverIPs, ",") {
+			ad := resolver.Address{
+				Addr:       a,
+				Attributes: attributes.New(append(make([]interface{}, 0), "weight", (i+1)*10)...),
+				// WARN: deprecated usage but only for fast build purposes
+				Type: resolver.Backend,
+			}
+			if i == 1 {
+				ad.Attributes = nil
+			}
+			addresses = append(addresses, ad)
 		}
 		b.InitialState(resolver.State{
 			Addresses: addresses,

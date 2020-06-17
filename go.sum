@@ -1,5 +1,7 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/c2fo/testify v0.0.0-20150827203832-fba96363964a h1:lXGVReN5qeiyu6AZpIgYJN1PoXSy1koT3nUP3ZRMWm0=
+github.com/c2fo/testify v0.0.0-20150827203832-fba96363964a/go.mod h1:NWprYCk3t+OPBp2UnxQ39EF9vPpUzoMr498TiqMA8jU=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
@@ -30,6 +32,10 @@ github.com/google/go-cmp v0.4.0/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
+github.com/zerospiel/wrrimpl v0.0.0-20200617125731-fc4e31e436b2 h1:23q9khqyCqvNLuRZHdnufDoU9e1FKycdGQrhC74RTAs=
+github.com/zerospiel/wrrimpl v0.0.0-20200617125731-fc4e31e436b2/go.mod h1:Onr9I8AQd0RkukwFCdOKV1YPSyu/lWeAuak//xUHmo4=
+github.com/zerospiel/wrrimpl v0.0.0-20200617131852-e8b7710e8766 h1:wFgazuvrJLvuRaGno6s5J1nFjBOWwT2R3UlPLodUohs=
+github.com/zerospiel/wrrimpl v0.0.0-20200617131852-e8b7710e8766/go.mod h1:Onr9I8AQd0RkukwFCdOKV1YPSyu/lWeAuak//xUHmo4=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/lint v0.0.0-20181026193005-c67002cb31c3/go.mod h1:UVdnD1Gm6xHRNCYTkRU2/jEulfH38KcIWyp/GAMgvoE=

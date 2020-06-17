@@ -3,9 +3,9 @@ package main
 import (
 	"sync"
 
+	"github.com/zerospiel/wrrimpl"
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/balancer/base"
-	"google.golang.org/grpc/resolver"
 )
 
 // BalancerName is a default name for a WRR balancer.
@@ -32,8 +32,12 @@ func newPBuilder(name string) balancer.Builder {
 func (p *pickerBldr) Build(info base.PickerBuildInfo) balancer.V2Picker {
 	pool := newConnSet()
 
-	for conn := range info.ReadySCs {
-		pool.add(conn)
+	for conn, connInfo := range info.ReadySCs {
+		var w int
+		if connInfo.Address.Attributes != nil {
+			w = connInfo.Address.Attributes.Value("weight").(int)
+		}
+		pool.add(conn, int64(w))
 	}
 
 	return &wrrPicker{
@@ -42,36 +46,36 @@ func (p *pickerBldr) Build(info base.PickerBuildInfo) balancer.V2Picker {
 }
 
 type connSet struct {
-	mu   sync.Mutex
-	sc   []balancer.SubConn
-	next int
+	mu  sync.Mutex
+	wrr wrrimpl.WRR
 }
 
 func newConnSet() *connSet {
-	// TODO: set random next depending on readyscs pool size
 	return &connSet{
-		sc: make([]balancer.SubConn, 0),
+		wrr: wrrimpl.NewEDF(),
 	}
 }
 
-func (cs *connSet) add(sc balancer.SubConn) {
+func (cs *connSet) add(sc balancer.SubConn, w int64) {
+	if w == 0 {
+		return
+	}
+
 	cs.mu.Lock()
 	defer cs.mu.Unlock()
 
-	cs.sc = append(cs.sc, sc)
+	cs.wrr.Add(sc, int64(w))
 }
 
 func (cs *connSet) pick() (balancer.PickResult, error) {
 	cs.mu.Lock()
 	defer cs.mu.Unlock()
 
-	if len(cs.sc) == 0 {
+	// wrr on edf
+	sc, ok := cs.wrr.Next().(balancer.SubConn)
+	if !ok || sc == nil {
 		return balancer.PickResult{}, balancer.ErrNoSubConnAvailable
 	}
-
-	// default rr
-	sc := cs.sc[cs.next]
-	cs.next = (cs.next + 1) % len(cs.sc)
 
 	return balancer.PickResult{SubConn: sc}, nil
 }
@@ -83,10 +87,4 @@ type wrrPicker struct {
 // Pick returns the connection to use for this RPC and related information.
 func (p *wrrPicker) Pick(info balancer.PickInfo) (balancer.PickResult, error) {
 	return p.p.pick()
-}
-
-func addressAttr(a resolver.Address, attr string) (value string, exists bool) {
-	value, exists = a.Attributes.Value(attr).(string)
-
-	return value, exists
 }
